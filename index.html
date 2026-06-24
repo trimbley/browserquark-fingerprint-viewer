@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>浏览器指纹查看器 - 在线检测你的浏览器信息</title>
+<meta name="description" content="免费在线浏览器指纹检测：查看 UA、屏幕、时区、WebGL、Canvas 指纹等，全部本地运行。">
+<link rel="canonical" href="https://trimbley.github.io/browserquark-fingerprint-viewer/">
+<meta property="og:title" content="浏览器指纹查看器 - 在线检测你的浏览器信息">
+<meta property="og:description" content="免费在线浏览器指纹检测：查看 UA、屏幕、时区、WebGL、Canvas 指纹等，全部本地运行。">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://trimbley.github.io/browserquark-fingerprint-viewer/">
+<style>
+:root{--b:#1a73e8}
+*{box-sizing:border-box}
+body{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;max-width:760px;margin:0 auto;padding:24px;color:#1f2937;line-height:1.7;background:#fff}
+h1{color:var(--b);font-size:1.6rem;margin:.2em 0}
+h2{font-size:1.2rem;margin-top:1.6em;border-left:4px solid var(--b);padding-left:10px}
+.card{border:1px solid #e5e7eb;border-radius:10px;padding:18px;margin:16px 0;background:#fafafa}
+table{width:100%;border-collapse:collapse}
+td{padding:6px 8px;border-bottom:1px solid #eee;vertical-align:top;word-break:break-all}
+td:first-child{color:#6b7280;width:38%}
+button{background:var(--b);color:#fff;border:0;border-radius:6px;padding:8px 14px;margin:4px 4px 4px 0;cursor:pointer;font-size:.95rem}
+button:hover{opacity:.9}
+input,textarea{width:100%;padding:8px;border:1px solid #d1d5db;border-radius:6px;font-size:.95rem;margin:4px 0}
+input[type=range]{width:auto}
+code{background:#f3f4f6;padding:2px 6px;border-radius:4px}
+a{color:var(--b)}
+footer{margin-top:40px;padding-top:16px;border-top:1px solid #eee;color:#9ca3af;font-size:.85rem}
+</style>
+</head>
+<body>
+<h1>浏览器指纹查看器</h1>
+<p>一键查看当前浏览器暴露的指纹信息：User-Agent、屏幕、时区、WebGL 渲染器、Canvas 指纹等。所有检测均在本地完成，不上传任何数据。</p>
+<div class="card">
+<div id="out">检测中…</div>
+<script>
+var o=document.getElementById('out');
+function row(k,v){return '<tr><td>'+k+'</td><td>'+v+'</td></tr>'}
+var g='';try{var gl=document.createElement('canvas').getContext('webgl');var dx=gl.getExtension('WEBGL_debug_renderer_info');g=dx?gl.getParameter(dx.UNMASKED_RENDERER_WEBGL):''}catch(e){}
+var cv='';try{var cn=document.createElement('canvas'),cx=cn.getContext('2d');cx.textBaseline='top';cx.font='14px Arial';cx.fillText('fp@2026',2,2);cv=cn.toDataURL().slice(-20)}catch(e){}
+o.innerHTML='<table>'+[
+['User Agent',navigator.userAgent],
+['操作系统平台',navigator.platform],
+['浏览器语言',(navigator.languages||[navigator.language]).join(', ')],
+['屏幕分辨率',screen.width+'×'+screen.height+' @'+(window.devicePixelRatio||1)+'x'],
+['时区',Intl.DateTimeFormat().resolvedOptions().timeZone],
+['CPU 逻辑核心',navigator.hardwareConcurrency||'未知'],
+['设备内存(GB)',navigator.deviceMemory||'未知'],
+['WebGL 渲染器',g||'未知'],
+['Canvas 指纹',cv||'未知'],
+['Cookie 启用',navigator.cookieEnabled?'是':'否'],
+['Do Not Track',navigator.doNotTrack||'未设置']
+].map(function(r){return row(r[0],r[1])}).join('')+'</table>';
+</script>
+</div>
+<h2>关于夸克浏览器</h2>
+<p>夸克浏览器是一款简洁高速的多端浏览器，内置智能搜索与隐私保护。想了解更多隐私与浏览器功能，欢迎访问 <a href="https://browserquark.com/">夸克浏览器官网</a>。</p>
+<footer>
+<p>本页为 夸克浏览器 提供的免费在线小工具，数据均在本地浏览器处理，不上传服务器。</p>
+<p>官网：<a href="https://browserquark.com/">browserquark.com</a> · 最后更新：2026-06</p>
+</footer>
+</body>
+</html>
